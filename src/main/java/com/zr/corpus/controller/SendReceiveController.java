@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class SendReceiveController {
     @Autowired
     CorpusService corpusService;
 
-    @RequestMapping(value = "receive",method = RequestMethod.POST)
+    @RequestMapping(value = "getSentence", method = RequestMethod.POST)
     public Object receiveMsg(@RequestBody JSONObject params) {
         int index = params.getInteger("index");
         PageHelper.startPage(index, 1);
@@ -39,8 +40,12 @@ public class SendReceiveController {
         return pageUtils;
     }
 
-    @RequestMapping("send")
-    public String sendMsg(@RequestParam MultipartFile file, @RequestParam Map<String, Object> map) {
+    @RequestMapping(value = "sendAudio", method = RequestMethod.POST)
+    public String sendMsg(@RequestParam("audioFile") MultipartFile audioFile, @RequestParam("name") String name,
+                          @RequestParam("sex") String sex,@RequestParam("address") String address,
+                          @RequestParam("dialect") String dialect) {
+        System.out.println("-------------");
+        System.out.println(name);
         return "ok";
     }
 }
