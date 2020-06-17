@@ -8,8 +8,10 @@ import com.zr.corpus.service.CorpusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +44,21 @@ public class SendReceiveController {
 
     @RequestMapping(value = "sendAudio", method = RequestMethod.POST)
     public String sendMsg(@RequestParam("audioFile") MultipartFile audioFile, @RequestParam("name") String name,
-                          @RequestParam("sex") String sex,@RequestParam("address") String address,
-                          @RequestParam("dialect") String dialect) {
-        System.out.println("-------------");
+                          @RequestParam("sex") String sex, @RequestParam("address") String address,
+                          @RequestParam("dialect") String dialect, @RequestParam("sentenceId") String sentenceId) throws IOException {
+
+        String preffix = "data:audio/wav;base64,";
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String audioStr = preffix + base64Encoder.encode(audioFile.getBytes()).replaceAll("[\\s*\t\n\r]", "");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("name", name);
+        map.put("audioStr", audioStr);
+        map.put("sex", sex);
+        map.put("dialect", dialect);
+        map.put("address", address);
+        map.put("sentenceId", sentenceId);
+        corpusService.addCorpus(map);
         System.out.println(name);
         return "ok";
     }

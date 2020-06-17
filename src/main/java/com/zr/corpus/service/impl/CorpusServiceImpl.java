@@ -17,4 +17,9 @@ public class CorpusServiceImpl implements CorpusService {
     public List<Map<String, Object>> getOne(Map<String, Object> params) {
         return corpusDao.getOne(params);
     }
+
+    @Override
+    public void addCorpus(Map<String, String> map) {
+        corpusDao.addCorpus(map);
+    }
 }

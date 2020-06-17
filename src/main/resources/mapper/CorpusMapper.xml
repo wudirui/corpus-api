@@ -18,4 +18,8 @@
             and sex = #{sex}
         </if>)
     </select>
+
+    <insert id="addCorpus" parameterType="java.util.Map">
+        insert into corpus (sentence_id,recorder_name,sex,address,audio) values (#{sentenceId},#{name},#{sex},#{address},#{audioStr})
+    </insert>
 </mapper>

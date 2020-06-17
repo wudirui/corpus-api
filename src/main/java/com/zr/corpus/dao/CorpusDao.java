@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface CorpusDao {
     List<Map<String, Object>> getOne(Map<String, Object> params);
+
+    void addCorpus(Map<String, String> map);
 }
