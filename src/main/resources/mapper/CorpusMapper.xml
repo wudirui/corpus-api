@@ -4,22 +4,13 @@
 
 <mapper namespace="com.zr.corpus.dao.CorpusDao">
     <select id="getOne" parameterType="java.util.Map" resultType="map">
-        select * from sentence where id not in (select sentence_id from corpus where 1=1
-        <if test="address!=null">
-            and address = #{address}
-        </if>
-        <if test="recorderName!=null">
-            and recorder_name = #{recorderName}
-        </if>
-        <if test="dialect!=null">
-            and dialect = #{dialect}
-        </if>
-        <if test="sex!=null">
-            and sex = #{sex}
-        </if>)
+        select * from sentence where id not in (select sentence_id from corpus where address = #{region}
+        and recorder_name = #{name} and dialect = #{dialect} and sex = #{sex})
     </select>
 
     <insert id="addCorpus" parameterType="java.util.Map">
-        insert into corpus (sentence_id,recorder_name,sex,address,audio) values (#{sentenceId},#{name},#{sex},#{address},#{audioStr})
+        insert into corpus (sentence_id,recorder_name,sex,address,audio,del,dialect,status,create_time) values
+        (#{sentenceId},#{name},
+        #{sex},#{address},#{audioStr},0,#{dialect},0,#{createTime})
     </insert>
 </mapper>
